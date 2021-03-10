@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using roulette.api.services.Core;
+using roulette.api.services.Core.MongoDbContext;
+using roulette.api.services.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,12 +27,16 @@ namespace roulette.api.services
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<MongoDbSettings>(options =>
-            {
-                options.ConnectionString = Configuration.GetSection("MongoDbSettings:ConnectionString").Value;
-                options.Database = Configuration.GetSection("MongoDbSettings:Database").Value;
-            });
+            services.Configure<MongoDbSettings>(
+                options =>
+                {
+                    options.ConnectionString = Configuration.GetSection("MongoDbSettings:ConnectionString").Value;
+                    options.Database = Configuration.GetSection("MongoDbSettings:Database").Value;
+                }
+            );
             services.AddSingleton<MongoDbSettings>();
+            services.AddTransient<IRouletteContext, RouletteContext>();
+            services.AddTransient<IRouletteRepository, RouletteRepository>();
             services.AddControllers();
         }
 
@@ -41,11 +47,8 @@ namespace roulette.api.services
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseRouting();
-
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

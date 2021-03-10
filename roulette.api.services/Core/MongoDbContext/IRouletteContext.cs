@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace roulette.api.services.Core.MongoDbContext
 {
-    interface IRouletteContext
+    public interface IRouletteContext
     {
         IMongoCollection<Roulette> Roulettes { get; }
     }
