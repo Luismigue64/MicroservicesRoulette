@@ -28,3 +28,31 @@ GET api/roulette/roulettes: Lista todas las ruletas con su Id y su estado Abiert
 
 GET api/bet/bets/{IdRuleta}: Deveulve las apuestas de una ruleta.
 
+Para la persistencia se usa una base de datos MongoDB en la que se creó una colección llamada MasivRoulette. Allí se crearon dos colecciones, Roulette, en la que se guarda el Id de cada ruleta, y su estado (null, Open  Close). La otra es Bet, en donde se guardan las apuestas, 
+
+Estas son las estructuras:
+
+Roulette:
+
+      {
+          "id" : "",
+          "Status" : "" // null Open Close
+      }
+
+ Bet:
+ 
+       {
+          "id" : "",
+          "IdRoulette" : "",
+          "Number" : "", // 0 a 36
+          "Color" : "", // Red Black
+          "Wager" : 0, // 1 a 10000
+          "IdUser" : "",
+          "Status" : "", // Standby Win Loses
+          "Win Amount" : 0,
+          "WinningNumber" : "",
+          "WinningColor" : ""
+      }
+
+
+
